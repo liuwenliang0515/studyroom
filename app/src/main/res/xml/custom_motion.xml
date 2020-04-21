@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <ConstraintSet android:id="@+id/start_set">
+        <Constraint
+            android:id="@+id/actor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" >
+            <CustomAttribute
+                app:attributeName="textColor"
+                app:customColorValue="#B89411"/>
+        </Constraint>
+    </ConstraintSet>
+    <ConstraintSet android:id="@+id/end_set">
+        <Constraint
+            android:id="@+id/actor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" >
+
+            <CustomAttribute
+                app:attributeName="textColor"
+                app:customColorValue="#5E73CF"/>
+        </Constraint>
+    </ConstraintSet>
+    <Transition
+        app:constraintSetEnd="@id/end_set"
+        app:constraintSetStart="@id/start_set"
+        app:duration="2000">
+        <KeyFrameSet>
+            <KeyCycle
+                app:motionTarget="@+id/actor"
+                app:framePosition="50"
+                app:transitionPathRotate="50"
+                app:waveShape="sin"
+                app:wavePeriod="1"
+                />
+        </KeyFrameSet>
+<!--        <OnClick-->
+<!--            app:clickAction="transitionToEnd"-->
+<!--            app:targetId="@id/actor" />-->
+        <OnSwipe
+            app:dragDirection="dragDown"
+            app:touchAnchorId="@id/actor"
+            />
+    </Transition>
+</MotionScene>
