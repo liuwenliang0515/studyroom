@@ -17,7 +17,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".CoordinateActivity"/>
-        <activity android:name=".SingerActivity"/>
+        <activity android:name="com.example.coordinate.SingerActivity"/>
+        <activity android:name="com.example.coordinate.SingerImageActivity"/>
     </application>
 
 </manifest>

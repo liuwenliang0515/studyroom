@@ -6,20 +6,14 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Rect
-import android.graphics.drawable.BitmapDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
-import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
-import com.bumptech.glide.Glide
+import com.example.coordinate.SingerActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.concurrent.Executors
-import java.util.concurrent.locks.ReentrantLock
 
 class MainActivity : AppCompatActivity() {
     fun dp2px(dp: Int): Float {

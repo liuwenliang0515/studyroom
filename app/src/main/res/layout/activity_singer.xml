@@ -14,11 +14,13 @@
             app:layout_behavior="com.example.coordinate.HeaderBehavior">
 
             <ImageView
+                android:id="@+id/header_img"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 android:src="@drawable/chenguanxi"
-                android:tag="scale"/>
+                android:tag="scale"
+                android:transitionName="singer_img"/>
 
             <View
                 android:layout_width="match_parent"
@@ -44,7 +46,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.google.android.material.tabs.TabLayout
+        <com.example.aboutview.CustomTabLayout
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@drawable/tab_bg"
