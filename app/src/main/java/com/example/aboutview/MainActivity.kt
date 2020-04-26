@@ -50,7 +50,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         content_layout.viewTreeObserver.addOnGlobalLayoutListener {
-            Log.d("lwl", "listener")
             ViewCompat.offsetTopAndBottom(content_layout, (height * 200).toInt())
         }
 

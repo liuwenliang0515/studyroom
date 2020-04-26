@@ -2,12 +2,14 @@ package com.example.coordinate
 
 import android.animation.ValueAnimator
 import android.content.Context
+import android.graphics.Rect
 import android.util.AttributeSet
 import android.util.Log
 import android.view.*
 import android.view.animation.DecelerateInterpolator
 import android.widget.OverScroller
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.GravityCompat
 import androidx.core.view.ViewCompat
 import kotlin.math.abs
 import kotlin.math.max
@@ -49,11 +51,51 @@ class HeaderBehavior(context: Context?, attrs: AttributeSet?) :
         parentHeightMeasureSpec: Int,
         heightUsed: Int
     ): Boolean {
-        Log.d("lwl", "on measure child")
         if ((child.layoutParams as? CoordinatorLayout.LayoutParams)?.behavior is HeaderBehavior) {
             child.translationY = -HEADER_OVER_SCROLL.toFloat()
         }
         return false
+    }
+
+    //解决offset不稳定
+    private fun resolveGravity(gravity: Int): Int {
+        var res = gravity
+        if (gravity and Gravity.HORIZONTAL_GRAVITY_MASK == Gravity.NO_GRAVITY) {
+            res = gravity or GravityCompat.START
+        }
+        if (gravity and Gravity.VERTICAL_GRAVITY_MASK == Gravity.NO_GRAVITY) {
+            res = gravity or Gravity.TOP
+        }
+        return res
+    }
+
+    //解决offset不稳定
+    override fun layoutChild(
+        parent: CoordinatorLayout,
+        child: View,
+        layoutDirection: Int
+    ) {
+        val lp = child.layoutParams as CoordinatorLayout.LayoutParams
+        val out = Rect()
+        val parentR = Rect()
+        parentR.set(
+            parent.paddingLeft + lp.leftMargin,
+            parent.paddingTop + lp.topMargin,
+            parent.width - parent.paddingRight - lp.rightMargin,
+            parent.height - parent.paddingBottom - lp.bottomMargin
+        )
+
+        GravityCompat.apply(
+            resolveGravity(lp.gravity), child.measuredWidth,
+            child.measuredHeight, parentR, out, layoutDirection
+        )
+        child.layout(
+            out.left,
+            out.top - HEADER_OVER_SCROLL - TAB_HEIGHT,
+            out.right,
+            out.bottom - HEADER_OVER_SCROLL - TAB_HEIGHT
+        )
+        child.translationY = TAB_HEIGHT.toFloat()
     }
 
     override fun onStartNestedScroll(
