@@ -7,11 +7,15 @@ import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.Rect
+import android.os.AsyncTask
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import androidx.core.view.ViewCompat
+import com.bumptech.glide.Glide
 import com.example.coordinate.SingerActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -38,8 +42,15 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("lifecycle", "onCreate")
         setContentView(R.layout.activity_main)
 
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//            mainLooper.queue.addIdleHandler {
+//                Log.d("lwla", "addIdleHandler")
+//                true
+//            }
+//        }
 
         start_btn.setOnClickListener {
             if (height == 1f) {
@@ -48,6 +59,7 @@ class MainActivity : AppCompatActivity() {
                 animator?.start()
             }
         }
+
 
         content_layout.viewTreeObserver.addOnGlobalLayoutListener {
             ViewCompat.offsetTopAndBottom(content_layout, (height * 200).toInt())
@@ -60,8 +72,14 @@ class MainActivity : AppCompatActivity() {
     var initWidth: Int = 0
     var globalRect: Rect? = null
 
+    override fun onStart() {
+        super.onStart()
+        Log.d("lifecycle", "onStart")
+    }
+
     override fun onResume() {
         super.onResume()
+        Log.d("lifecycle", "onResume")
 
         content_layout.post {
             initHeight = content_layout.measuredHeight
@@ -99,6 +117,65 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, SingerActivity::class.java))
         }
 
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        Log.d("lifecycle", "onSaveInstanceState")
+        outState.putString("key", "value")
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        Log.d("lifecycle", "onRestoreInstanceState")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("lifecycle", "onpause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("lifecycle", "onstop")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("lifecycle", "onDestroy")
+    }
+
+    fun funC(value: Int) {
+
+    }
+
+    inline fun funA(crossinline block: () -> Int) {
+        val a = block()
+        funC(a)
+    }
+
+    fun funB(): Boolean {
+        val list: List<Int> = listOf()
+        funA {
+            1
+//            return true
+        }
+
+        inlineFun(1)
+
+        return false
+    }
+
+    inline fun <reified T> inlineFun(field: T) {
+        val a = 3
+        if (a is T) {
+
+        }
+    }
+
+    fun funC(list: ArrayList<out TextView>) {
+//        val list = arrayListOf<out Any>("")
+        val list2: ArrayList<out TextView> = ArrayList()
     }
 
     private fun loadBitmap() {

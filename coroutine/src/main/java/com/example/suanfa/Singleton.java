@@ -8,13 +8,15 @@ public class Singleton {
 
     private static Singleton INSTANCE = null;
 
-    private Singleton() {
+    public Model model = new Model(1);
+
+    public Singleton() {
 
     }
 
-    public Singleton getInstance() {
+    public static Singleton getInstance() {
         if (INSTANCE == null) {
-            synchronized (this) {
+            synchronized (Singleton.class) {
                 if (INSTANCE == null)
                     INSTANCE = new Singleton();
             }
@@ -23,16 +25,16 @@ public class Singleton {
     }
 
     public static void main(String[] args) {
-        HashMap<Model, Integer> map = new HashMap<>();
-        for (int i = 0; i < 100; i++) {
-            map.put(new Model(1), 1);
-        }
-
-        System.out.println(map.size());
+//        HashMap<Model, Integer> map = new HashMap<>();
+//        for (int i = 0; i < 100; i++) {
+//            map.put(new Model(1), 1);
+//        }
+//
+//        System.out.println(map.size());
     }
 
 
-    static class Model {
+    class Model {
 
         int val;
 

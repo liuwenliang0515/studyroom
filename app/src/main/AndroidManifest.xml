@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.aboutview">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,16 +12,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+            android:launchMode="singleTask">
+        </activity>
+        <activity android:name=".CoordinateActivity"/>
+        <activity android:name="com.example.coordinate.SingerActivity"/>
+        <activity android:name="com.example.coordinate.SingerImageActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".CoordinateActivity"/>
-        <activity android:name="com.example.coordinate.SingerActivity"/>
-        <activity android:name="com.example.coordinate.SingerImageActivity"/>
+        <activity android:name="com.example.waterfalls.WaterFallsActivity">
+        </activity>
+        <activity android:name="com.example.bigimage.BigImageActivity">
+        </activity>
     </application>
 
 </manifest>

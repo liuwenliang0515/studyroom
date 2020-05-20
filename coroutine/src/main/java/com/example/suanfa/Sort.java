@@ -2,6 +2,8 @@ package com.example.suanfa;
 
 import android.util.Log;
 
+import java.lang.ref.WeakReference;
+
 public class Sort {
 
     public static void main(String[] args) {
@@ -10,6 +12,25 @@ public class Sort {
         for (int i : array) {
             System.out.println(i);
         }
+
+        Singleton st = new Singleton();
+        WeakReference wrf = new WeakReference(st);
+        Singleton.Model model = st.model;
+
+
+        st = null;
+        Runtime.getRuntime().gc();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            throw new AssertionError();
+        }
+        System.runFinalization();
+
+        System.out.println("weak = what ?" + wrf.get());
+        System.out.println("model = what ?" + model);
+
+
     }
 
     private static void maopao(int[] array) {
@@ -84,40 +105,44 @@ public class Sort {
     }
 
     private static void kuaipai(int[] array, int low, int high) {
-        if (high - low < 1) return;
+
+
+        if (low >= high) return;
 
         int start = low;
         int end = high;
         int midValue = array[low];
         boolean flag = true;
 
-        while(true) {
+        while (true) {
             if (flag) {
-                if (array[high] > midValue) {
-                    high--;
+                if (array[end] > midValue) {
+                    end--;
                 } else {
-                    array[low] = array[high];
-                    low++;
+                    array[start] = array[end];
+                    start++;
                     flag = false;
                 }
             } else {
-                if (array[low] < midValue) {
-                    low++;
+                if (array[start] < midValue) {
+                    start++;
                 } else {
-                    array[high] = array[low];
-                    high--;
+                    array[end] = array[start];
+                    end--;
                     flag = true;
                 }
             }
 
-            if (high == low) {
-                array[low] = midValue;
+            if (start == end) {
+                array[start] = midValue;
                 break;
             }
+
         }
 
-        kuaipai(array, start, low - 1);
-        kuaipai(array, high + 1, end);
+        kuaipai(array, low, start - 1);
+        kuaipai(array, start + 1, high);
+
     }
 
     public static void mergeSort(int[] arr, int start, int end) {
